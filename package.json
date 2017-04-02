@@ -1,0 +1,23 @@
+{
+  "name": "elm-sample-inbox",
+  "version": "1.0.0",
+  "description": "Sample Elm application developed as part of my bachelor thesis.",
+  "main": "index.js",
+  "repository": "git@github.com:jan-luxemburk/elm-sample-inbox.git",
+  "author": "Jan Luxemburk <janluxemburk@gmail.com>",
+  "license": "MIT",
+  "scripts": {
+    "build": "webpack",
+    "dev": "webpack-dev-server"
+  },
+  "devDependencies": {
+    "elm": "^0.18.0",
+    "elm-hot-loader": "^0.5.4",
+    "elm-webpack-loader": "^4.3.0",
+    "webpack": "^2.3.2",
+    "webpack-dev-server": "^2.4.2"
+  },
+  "dependencies": {
+    "font-awesome": "^4.7.0"
+  }
+}
