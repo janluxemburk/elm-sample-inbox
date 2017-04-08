@@ -20,7 +20,7 @@ const config = {
             loader: 'elm-webpack-loader',
             options: {
               warn: true,
-              debug: true
+              debug: false
             }
           }
         ]

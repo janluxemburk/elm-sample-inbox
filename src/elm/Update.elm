@@ -1,10 +1,7 @@
-module Update exposing (update, Msg)
+module Update exposing (update)
 
-import Models exposing (Model)
-
-
-type Msg
-    = NoOp
+import Model exposing (Model)
+import Msg exposing (..)
 
 
 update : Msg -> Model -> ( Model, Cmd Msg )
