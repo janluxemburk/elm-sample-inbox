@@ -4,21 +4,27 @@ import Date exposing (Date)
 
 
 type alias Email =
-    { emailType : EmailType
-    , metaInformation : EmailMetaInformation
-    , message : EmailMessage
+    { emailId : Int
+    , date : Date
+    , emailType : EmailType
+    , starred : Bool
+    , labels : List String
+    , from : Contact
+    , recipient : Contact
+    , subject : String
+    , body : String
     }
+
+
+type EmailType
+    = Received EmailReadStatus
+    | IsSent
+    | Draft -- add type "being composed"
 
 
 type EmailReadStatus
     = Unread
     | Read
-
-
-type EmailType
-    = Received EmailReadStatus
-    | Sent
-    | Draft
 
 
 type alias Contact =
@@ -27,16 +33,21 @@ type alias Contact =
     }
 
 
-type alias EmailMetaInformation =
-    { starred : Bool
-    , labels : List String
+type alias User =
+    { name : String
+    , email : String
     }
 
 
-type alias EmailMessage =
-    { from : Contact
-    , to : Contact
-    , date : Date
-    , subject : String
-    , body : String
-    }
+type InboxEmailCategory
+    = Inbox
+    | Drafts
+    | Sent
+    | Starred
+    | Archive
+    | Spam
+    | Trash
+
+
+type alias NavigationItem =
+    ( String, String, InboxEmailCategory )

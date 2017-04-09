@@ -3,13 +3,15 @@ module Main exposing (..)
 import Html exposing (program)
 import Model exposing (Model, initialModel)
 import Update exposing (update)
-import Msg exposing (Msg)
+import Msg exposing (Msg(..))
 import View exposing (view)
+import Time exposing (Time, minute)
+import Task
 
 
 init : ( Model, Cmd Msg )
 init =
-    ( initialModel, Cmd.none )
+    ( initialModel, Task.perform Tick Time.now )
 
 
 main : Program Never Model Msg
@@ -24,4 +26,4 @@ main =
 
 subscriptions : Model -> Sub Msg
 subscriptions model =
-    Sub.none
+    Time.every minute Tick

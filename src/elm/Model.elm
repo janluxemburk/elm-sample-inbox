@@ -1,55 +1,40 @@
 module Model exposing (..)
 
 import Types exposing (..)
-import Date
+import SampleData.Emails exposing (sampleEmails)
+import Dict exposing (Dict)
+import Time exposing (Time)
 
 
 type alias Model =
     { inbox : InboxModel
-    , title : String
+    , loggedUser : User
+    , searchString : Maybe String
+    , composedEmail : Maybe Email
+    , currentTime : Time
     }
 
 
 type alias InboxModel =
-    { emails : List Email
-    , selectedEmail : Email
+    { emails : Dict Int Email
+    , selectedEmail : Maybe Email
+    , selectedEmailCategory : InboxEmailCategory
     }
 
 
 initialModel : Model
 initialModel =
-    { title = "Inbox"
-    , inbox = initialInboxModel
+    { inbox = initialInboxModel
+    , loggedUser = User "Brice Anxo" "brice.anki@elm-lang.com"
+    , searchString = Nothing
+    , composedEmail = Nothing
+    , currentTime = 0
     }
 
 
 initialInboxModel : InboxModel
 initialInboxModel =
     { emails = sampleEmails
-    , selectedEmail = sampleEmail
+    , selectedEmail = Nothing
+    , selectedEmailCategory = Inbox
     }
-
-
-sampleEmails : List Email
-sampleEmails =
-    List.repeat 5 sampleEmail
-
-
-sampleEmail : Email
-sampleEmail =
-    let
-        from =
-            Contact "Jan Luxemburk" "jan.luxemburk@protonmail.com"
-
-        to =
-            Contact "Robert Pergl" "robert.pergls@fit.cvut.cz"
-
-        anMessage =
-            EmailMessage from
-                to
-                (Date.fromTime 0)
-                "A subject"
-                """Hello,
-                Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book."""
-    in
-        Email (Received Read) (EmailMetaInformation False []) anMessage

@@ -1,15 +1,22 @@
 module Msg exposing (..)
 
+import Types exposing (..)
+import Date exposing (Date)
+import Time exposing (Time)
+
 
 type Msg
-    = NoOp
+    = SelectEmail Email
+    | SelectInboxEmailCategory InboxEmailCategory
+    | ComposeEmail
+    | ComposeMsg ComposeMsg
+    | Tick Time
 
 
-type NavigationMsg
-    = Inbox
-    | Drafts
-    | Sent
-    | Starred
-    | Archive
-    | Spam
-    | Trash
+type ComposeMsg
+    = UpdateRecipient String
+    | UpdateSubject String
+    | UpdateBody String
+    | SaveDraft
+    | Send
+    | Close
