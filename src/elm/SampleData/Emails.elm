@@ -82,6 +82,6 @@ listOfEmails =
 
         createEmail =
             \id from date subject body ->
-                Email id (Date.fromTime <| date * 1000) (Received Unread) False [] from recipient subject body
+                Email id (Date.fromTime <| date * 1000) (Received Unread) False [] Nothing from recipient subject body
     in
         List.map5 createEmail ids froms dates subjects bodies

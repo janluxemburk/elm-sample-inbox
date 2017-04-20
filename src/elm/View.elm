@@ -85,6 +85,7 @@ viewSidebar model =
             , ( "Starred", "fa-star-o", Starred )
             , ( "Archive", "fa-archive", Archive )
             , ( "Spam", "fa-ban", Spam )
+            , ( "Trash", "fa-trash", Trash )
             ]
 
         sidebarNavigatonItem : NavigationItem -> Html Msg

@@ -14,6 +14,9 @@ update msg model =
         SelectEmail email ->
             selectEmail email model
 
+        MarkEmailAs markEmail ->
+            { model | inbox = markEmailAs markEmail model.inbox } ! []
+
         SelectInboxEmailCategory inboxEmailCategory ->
             { model | inbox = updateInboxEmailCategory inboxEmailCategory model.inbox } ! []
 
@@ -33,12 +36,23 @@ selectEmail email model =
         Draft ->
             { model | composedEmail = Just email } ! []
 
-        _ ->
+        IsSent ->
             { model | inbox = updateSelectedEmail email model.inbox } ! []
+
+        Received Read ->
+            { model | inbox = updateSelectedEmail email model.inbox } ! []
+
+        Received Unread ->
+            { model | inbox = selectUnreadEmail email model.inbox } ! []
 
 
 updateSelectedEmail : Email -> InboxModel -> InboxModel
 updateSelectedEmail selectedEmail model =
+    { model | selectedEmail = Just selectedEmail }
+
+
+selectUnreadEmail : Email -> InboxModel -> InboxModel
+selectUnreadEmail selectedEmail model =
     let
         selectedId =
             selectedEmail.emailId
@@ -139,3 +153,59 @@ saveDraft email model =
             Dict.insert email.emailId draftEmail model.inbox.emails
     in
         { model | composedEmail = Nothing, inbox = { inbox | emails = updatedInboxEmails } }
+
+
+markEmailAs : MarkEmail -> InboxModel -> InboxModel
+markEmailAs markEmail model =
+    case model.selectedEmail of
+        Nothing ->
+            model
+
+        Just email ->
+            case markEmail of
+                EmailReadStatus readStatus ->
+                    let
+                        selectedId =
+                            email.emailId
+
+                        updatedInboxEmails =
+                            Dict.update selectedId
+                                (\anEmail ->
+                                    case anEmail of
+                                        Nothing ->
+                                            Nothing
+
+                                        Just email ->
+                                            if email.emailType == Received Unread || email.emailType == Received Read then
+                                                Just { email | emailType = Received readStatus }
+                                            else
+                                                Just email
+                                )
+                                model.emails
+
+                        updatedSelectedEmail =
+                            Dict.get selectedId updatedInboxEmails
+                    in
+                        { model | emails = updatedInboxEmails, selectedEmail = updatedSelectedEmail }
+
+                Folder folder ->
+                    let
+                        selectedId =
+                            email.emailId
+
+                        updatedInboxEmails =
+                            Dict.update selectedId
+                                (\anEmail ->
+                                    case anEmail of
+                                        Nothing ->
+                                            Nothing
+
+                                        Just email ->
+                                            Just { email | folder = Just folder }
+                                )
+                                model.emails
+
+                        updatedSelectedEmail =
+                            Dict.get selectedId updatedInboxEmails
+                    in
+                        { model | emails = updatedInboxEmails, selectedEmail = updatedSelectedEmail }

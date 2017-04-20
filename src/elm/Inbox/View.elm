@@ -90,9 +90,9 @@ viewEmailView anEmail =
                             ]
                         , div [ class "summary-tools" ]
                             [ div [ class "button-container sumarry-tools__reply" ]
-                                [ viewIconButton "fa-reply" "Reply"
-                                , viewIconButton "fa-reply-all" "Reply all"
-                                , viewIconButton "fa-share" "Forward"
+                                [ viewReplyButton "fa-reply" "Reply"
+                                , viewReplyButton "fa-reply-all" "Reply all"
+                                , viewReplyButton "fa-share" "Forward"
                                 ]
                             ]
                         ]
@@ -101,9 +101,15 @@ viewEmailView anEmail =
                 ]
 
 
-viewIconButton : String -> String -> Html Msg
-viewIconButton iconClass tooltip =
+viewReplyButton : String -> String -> Html Msg
+viewReplyButton iconClass tooltip =
     button [ class "tool-button", type_ "button", title tooltip ]
+        [ i [ class <| "fa " ++ iconClass ] [] ]
+
+
+viewIconButton : String -> String -> Msg -> Html Msg
+viewIconButton iconClass tooltip msg =
+    button [ class "tool-button", type_ "button", title tooltip, onClick msg ]
         [ i [ class <| "fa " ++ iconClass ] [] ]
 
 
@@ -112,13 +118,13 @@ viewInboxTopbar model =
     div [ class "inbox__topbar" ]
         [ div [ class "inbox__topbar__toolbar" ]
             [ div [ class "button-container toolbar__readunread" ]
-                [ viewIconButton "fa-eye" "Mark as read"
-                , viewIconButton "fa-eye-slash" "Mark as unread"
+                [ viewIconButton "fa-eye" "Mark as read" <| MarkEmailAs <| EmailReadStatus Read
+                , viewIconButton "fa-eye-slash" "Mark as unread" <| MarkEmailAs <| EmailReadStatus Unread
                 ]
             , div [ class "button-container toolbar__moveto" ]
-                [ viewIconButton "fa-trash-o" "Delete"
-                , viewIconButton "fa-archive" "Archive"
-                , viewIconButton "fa-ban" "Mark as spam"
+                [ viewIconButton "fa-trash-o" "Delete" <| MarkEmailAs <| Folder FolderTrash
+                , viewIconButton "fa-archive" "Archive" <| MarkEmailAs <| Folder FolderArchive
+                , viewIconButton "fa-ban" "Mark as spam" <| MarkEmailAs <| Folder FolderSpam
                 ]
             ]
         , div [ class "inbox__topbar__paginator" ] []

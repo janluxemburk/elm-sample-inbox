@@ -9,6 +9,7 @@ type alias Email =
     , emailType : EmailType
     , starred : Bool
     , labels : List String
+    , folder : Maybe Folder
     , from : Contact
     , recipient : Contact
     , subject : String
@@ -37,6 +38,17 @@ type alias User =
     { name : String
     , email : String
     }
+
+
+type Folder
+    = FolderArchive
+    | FolderSpam
+    | FolderTrash
+
+
+type MarkEmail
+    = Folder Folder
+    | EmailReadStatus EmailReadStatus
 
 
 type InboxEmailCategory

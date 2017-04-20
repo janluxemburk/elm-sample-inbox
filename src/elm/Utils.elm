@@ -40,6 +40,7 @@ createEmail model =
             Draft
             False
             []
+            Nothing
             from
             recipient
             ""
@@ -54,25 +55,25 @@ filterEmailsByInboxCategory category emails =
     in
         case category of
             Inbox ->
-                List.filter (\email -> email.emailType == Received Read || email.emailType == Received Unread) list
+                List.filter (\email -> email.folder == Nothing && (email.emailType == Received Read || email.emailType == Received Unread)) list
 
             Drafts ->
                 List.filter (\email -> email.emailType == Draft) list
 
             Sent ->
-                List.filter (\email -> email.emailType == IsSent) list
+                List.filter (\email -> email.folder == Nothing && email.emailType == IsSent) list
 
             Starred ->
-                []
+                List.filter (\email -> email.starred == True) list
 
             Archive ->
-                []
+                List.filter (\email -> email.folder == Just FolderArchive) list
 
             Spam ->
-                []
+                List.filter (\email -> email.folder == Just FolderSpam) list
 
             Trash ->
-                []
+                List.filter (\email -> email.folder == Just FolderTrash) list
 
 
 sortEmailsByDate : List Email -> List Email

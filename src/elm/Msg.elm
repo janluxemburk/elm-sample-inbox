@@ -1,13 +1,13 @@
 module Msg exposing (..)
 
 import Types exposing (..)
-import Date exposing (Date)
 import Time exposing (Time)
 
 
 type Msg
     = SelectEmail Email
     | SelectInboxEmailCategory InboxEmailCategory
+    | MarkEmailAs MarkEmail
     | ComposeEmail
     | ComposeMsg ComposeMsg
     | Tick Time
