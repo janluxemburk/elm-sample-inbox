@@ -120,7 +120,7 @@ viewTopbar model =
             [ div [ class "topbar__search" ]
                 [ button [ class "topbar__search-button" ]
                     [ i [ class "fa fa-search" ] [] ]
-                , input [ class "topbar__search-input", placeholder "Search" ] []
+                , input [ class "topbar__search-input", placeholder "Search for subject or use 'from:' prefix", onInput SearchInput ] []
                 ]
             , div [ class "topbar__login" ] [ span [] [ text "" ] ]
             ]

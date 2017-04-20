@@ -144,6 +144,31 @@ filterEmailsByInboxCategory category emails =
                 List.filter (\email -> email.folder == Just FolderTrash) list
 
 
+filterEmailsBySearchQuery : String -> List Email -> List Email
+filterEmailsBySearchQuery query emails =
+    let
+        filter =
+            if String.startsWith "from:" query then
+                let
+                    queryFrom =
+                        String.toLower <| String.trim <| String.dropLeft 5 query
+                in
+                    \email ->
+                        String.contains queryFrom <| String.toLower email.from.name
+            else
+                \email ->
+                    let
+                        subject =
+                            String.toLower email.subject
+
+                        queryLower =
+                            String.toLower query
+                    in
+                        String.contains queryLower subject
+    in
+        List.filter filter emails
+
+
 sortEmailsByDate : List Email -> List Email
 sortEmailsByDate emails =
     let

@@ -29,6 +29,9 @@ update msg model =
         ForwardEmail email ->
             { model | composedEmail = Just <| forwardEmail model email } ! []
 
+        SearchInput query ->
+            { model | searchString = Just query } ! []
+
         ComposeMsg msg ->
             updateComposedEmail msg model
 

@@ -12,6 +12,7 @@ type Msg
     | ReplyEmail Email
     | ForwardEmail Email
     | ComposeMsg ComposeMsg
+    | SearchInput String
     | Tick Time
 
 

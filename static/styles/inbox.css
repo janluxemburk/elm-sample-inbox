@@ -28,6 +28,7 @@
     overflow-x: hidden;
     overflow-y: scroll;
     flex-direction: column;
+
     flex-grow: 1;
     flex-basis: 50%;
 }
@@ -69,6 +70,7 @@
 .email-listitem__sender {
     font-size: .7em;
     font-weight: 700;
+
     white-space: nowrap;
 }
 
@@ -108,6 +110,7 @@
 
 .email-body {
     padding: 15px 30px;
+
     white-space: pre-line;
 }
 
@@ -116,8 +119,9 @@
 }
 
 .summary-tools.summary-tools {
-    justify-content: flex-end;
     height: 55px;
+
+    justify-content: flex-end;
 }
 
 .summary-tools__reply {
@@ -151,5 +155,6 @@
 
 .inbox__email-listitem.active {
     padding-left: 15px;
+
     border-left: 5px solid #9397cd;
 }

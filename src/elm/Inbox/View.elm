@@ -6,7 +6,7 @@ import Html.Events exposing (onClick)
 import Model exposing (..)
 import Msg exposing (..)
 import Types exposing (..)
-import Utils exposing (dateToString, filterEmailsByInboxCategory, sortEmailsByDate)
+import Utils exposing (dateToString, filterEmailsByInboxCategory, filterEmailsBySearchQuery, sortEmailsByDate)
 
 
 view : Model -> Html Msg
@@ -26,8 +26,16 @@ viewEmailList model =
         filteredEmails =
             filterEmailsByInboxCategory model.inbox.selectedEmailCategory model.inbox.emails
 
+        filteredBySearchQuery =
+            case model.searchString of
+                Just query ->
+                    filterEmailsBySearchQuery query filteredEmails
+
+                Nothing ->
+                    filteredEmails
+
         sortedEmails =
-            sortEmailsByDate filteredEmails
+            sortEmailsByDate filteredBySearchQuery
 
         listItem =
             \email ->
