@@ -64,7 +64,7 @@ composeModal email =
                 [ textarea [ value email.body, onInput <| ComposeMsg << UpdateBody ] [] ]
             ]
         , footer [ class "compose-modal__footer" ]
-            [ button [ class "compose-modal__save-button", type_ "button", onClick <| ComposeMsg SaveDraft ]
+            [ button [ class "compose-modal__save-button", type_ "button", title "Save as draft", onClick <| ComposeMsg SaveDraft ]
                 [ i [ class "fa fa-floppy-o" ] [] ]
             , button
                 [ class "compose-modal__send-button", type_ "button", onClick <| ComposeMsg Send ]

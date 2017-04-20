@@ -90,9 +90,9 @@ viewEmailView anEmail =
                             ]
                         , div [ class "summary-tools" ]
                             [ div [ class "button-container sumarry-tools__reply" ]
-                                [ viewIconButton "fa-reply"
-                                , viewIconButton "fa-reply-all"
-                                , viewIconButton "fa-share"
+                                [ viewIconButton "fa-reply" "Reply"
+                                , viewIconButton "fa-reply-all" "Reply all"
+                                , viewIconButton "fa-share" "Forward"
                                 ]
                             ]
                         ]
@@ -101,9 +101,9 @@ viewEmailView anEmail =
                 ]
 
 
-viewIconButton : String -> Html Msg
-viewIconButton iconClass =
-    button [ class "tool-button", type_ "button" ]
+viewIconButton : String -> String -> Html Msg
+viewIconButton iconClass tooltip =
+    button [ class "tool-button", type_ "button", title tooltip ]
         [ i [ class <| "fa " ++ iconClass ] [] ]
 
 
@@ -112,13 +112,13 @@ viewInboxTopbar model =
     div [ class "inbox__topbar" ]
         [ div [ class "inbox__topbar__toolbar" ]
             [ div [ class "button-container toolbar__readunread" ]
-                [ viewIconButton "fa-eye"
-                , viewIconButton "fa-eye-slash"
+                [ viewIconButton "fa-eye" "Mark as read"
+                , viewIconButton "fa-eye-slash" "Mark as unread"
                 ]
             , div [ class "button-container toolbar__moveto" ]
-                [ viewIconButton "fa-trash-o"
-                , viewIconButton "fa-archive"
-                , viewIconButton "fa-ban"
+                [ viewIconButton "fa-trash-o" "Delete"
+                , viewIconButton "fa-archive" "Archive"
+                , viewIconButton "fa-ban" "Mark as spam"
                 ]
             ]
         , div [ class "inbox__topbar__paginator" ] []
