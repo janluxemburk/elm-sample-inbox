@@ -2,36 +2,86 @@ module Tests exposing (..)
 
 import Test exposing (..)
 import Expect
-import Fuzz exposing (list, int, tuple, string)
-import String
+import Utils exposing (..)
+import Model exposing (initialModel, Model)
+import Update exposing (update)
+import Msg exposing (..)
+import TestUtil exposing (testEmail)
+import Date
+import Compose exposing (composeEmailTests, composeEmailInputsTests)
+import EmailList exposing (selectEmailTests, markEmailAsUnreadTest)
 
 
 all : Test
 all =
-    describe "Sample Test Suite"
-        [ describe "Unit test examples"
-            [ test "Addition" <|
-                \() ->
-                    Expect.equal (3 + 7) 10
-            , test "String.left" <|
-                \() ->
-                    Expect.equal "a" (String.left 1 "abcdefg")
-            , test "This test should fail - you should remove it" <|
-                \() ->
-                    Expect.fail "Failed as expected!"
-            ]
-        , describe "Fuzz test examples, using randomly generated input"
-            [ fuzz (list int) "Lists always have positive length" <|
-                \aList ->
-                    List.length aList |> Expect.atLeast 0
-            , fuzz (list int) "Sorting a list does not change its length" <|
-                \aList ->
-                    List.sort aList |> List.length |> Expect.equal (List.length aList)
-            , fuzzWith { runs = 1000 } int "List.member will find an integer in a list containing it" <|
-                \i ->
-                    List.member i [ i ] |> Expect.true "If you see this, List.member returned False!"
-            , fuzz2 string string "The length of a string equals the sum of its substrings' lengths" <|
-                \s1 s2 ->
-                    s1 ++ s2 |> String.length |> Expect.equal (String.length s1 + String.length s2)
-            ]
+    describe ""
+        [ helperFunctionsTests
+        , initialModelTests
+        , composeEmailTests
+        , composeEmailInputsTests
+        , selectEmailTests
+        , markEmailAsUnreadTest
+        , replyEmailTests
+        ]
+
+
+initialModelTests : Test
+initialModelTests =
+    describe "model"
+        [ test "should initially have closed modal for composing email" <|
+            \() ->
+                initialModel.composedEmail
+                    |> Expect.equal Nothing
+        , test "should initially have empty search string" <|
+            \() ->
+                initialModel.searchString
+                    |> Expect.equal Nothing
+        ]
+
+
+helperFunctionsTests : Test
+helperFunctionsTests =
+    describe "tests of helper functions:"
+        [ test "dateToString should convert known Date to String" <|
+            \() ->
+                let
+                    date =
+                        Date.fromTime (1491161986 * 1000)
+
+                    dateString =
+                        dateToString date
+                in
+                    Expect.equal "2/Apr/2017" dateString
+        ]
+
+
+replyEmailTests : Test
+replyEmailTests =
+    describe "replying to email"
+        [ test "should open compose modal" <|
+            \() ->
+                initialModel
+                    |> update (ReplyEmail testEmail)
+                    |> Tuple.first
+                    |> .composedEmail
+                    |> Expect.notEqual Nothing
+        , test "should prefill subject and recipient" <|
+            \() ->
+                let
+                    composedEmail =
+                        initialModel
+                            |> update (ReplyEmail testEmail)
+                            |> Tuple.first
+                            |> .composedEmail
+                in
+                    case composedEmail of
+                        Nothing ->
+                            Expect.fail "No email is being composed"
+
+                        Just email ->
+                            Expect.all
+                                [ \email -> Expect.equal "Re: testmail" email.subject
+                                , \email -> Expect.equal "test@contact.com" email.recipient.email
+                                ]
+                                email
         ]
