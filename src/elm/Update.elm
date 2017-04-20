@@ -12,7 +12,7 @@ update : Msg -> Model -> ( Model, Cmd Msg )
 update msg model =
     case msg of
         SelectEmail email ->
-            { model | inbox = updateSelectedEmail email model.inbox } ! []
+            selectEmail email model
 
         SelectInboxEmailCategory inboxEmailCategory ->
             { model | inbox = updateInboxEmailCategory inboxEmailCategory model.inbox } ! []
@@ -25,6 +25,16 @@ update msg model =
 
         Tick time ->
             { model | currentTime = time } ! []
+
+
+selectEmail : Email -> Model -> ( Model, Cmd Msg )
+selectEmail email model =
+    case email.emailType of
+        Draft ->
+            { model | composedEmail = Just email } ! []
+
+        _ ->
+            { model | inbox = updateSelectedEmail email model.inbox } ! []
 
 
 updateSelectedEmail : Email -> InboxModel -> InboxModel
@@ -128,4 +138,4 @@ saveDraft email model =
         updatedInboxEmails =
             Dict.insert email.emailId draftEmail model.inbox.emails
     in
-        { model | composedEmail = Just draftEmail, inbox = { inbox | emails = updatedInboxEmails } }
+        { model | composedEmail = Nothing, inbox = { inbox | emails = updatedInboxEmails } }
