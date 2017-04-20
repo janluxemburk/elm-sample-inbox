@@ -90,9 +90,9 @@ viewEmailView anEmail =
                             ]
                         , div [ class "summary-tools" ]
                             [ div [ class "button-container sumarry-tools__reply" ]
-                                [ viewReplyButton "fa-reply" "Reply"
-                                , viewReplyButton "fa-reply-all" "Reply all"
-                                , viewReplyButton "fa-share" "Forward"
+                                [ viewReplyButton "fa-reply" "Reply" <| ReplyEmail email
+                                , viewReplyButton "fa-reply-all" "Reply all" <| ReplyEmail email
+                                , viewReplyButton "fa-share" "Forward" <| ForwardEmail email
                                 ]
                             ]
                         ]
@@ -101,9 +101,9 @@ viewEmailView anEmail =
                 ]
 
 
-viewReplyButton : String -> String -> Html Msg
-viewReplyButton iconClass tooltip =
-    button [ class "tool-button", type_ "button", title tooltip ]
+viewReplyButton : String -> String -> Msg -> Html Msg
+viewReplyButton iconClass tooltip msg =
+    button [ class "tool-button", type_ "button", title tooltip, onClick msg ]
         [ i [ class <| "fa " ++ iconClass ] [] ]
 
 

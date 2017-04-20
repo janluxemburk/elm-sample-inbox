@@ -47,6 +47,74 @@ createEmail model =
             ""
 
 
+replyEmail : Model -> Email -> Email
+replyEmail model replyEmail =
+    let
+        id =
+            Dict.size model.inbox.emails + 1
+
+        from =
+            Contact model.loggedUser.name model.loggedUser.email
+
+        recipient =
+            replyEmail.from
+
+        subject =
+            "Re: " ++ replyEmail.subject
+    in
+        Email
+            id
+            (Date.fromTime model.currentTime)
+            Draft
+            False
+            []
+            Nothing
+            from
+            recipient
+            subject
+            ""
+
+
+forwardEmail : Model -> Email -> Email
+forwardEmail model replyEmail =
+    let
+        id =
+            Dict.size model.inbox.emails + 1
+
+        from =
+            Contact model.loggedUser.name model.loggedUser.email
+
+        recipient =
+            Contact "" ""
+
+        subject =
+            "Fwd: " ++ replyEmail.subject
+
+        author =
+            replyEmail.from
+
+        body =
+            """
+---- Forwarded email ---
+From: """ ++ author.name ++ "<" ++ author.email ++ """>
+Subject: """ ++ replyEmail.subject ++ """
+Date: """ ++ dateToString replyEmail.date ++ """
+
+""" ++ replyEmail.body
+    in
+        Email
+            id
+            (Date.fromTime model.currentTime)
+            Draft
+            False
+            []
+            Nothing
+            from
+            recipient
+            subject
+            body
+
+
 filterEmailsByInboxCategory : InboxEmailCategory -> Dict Int Email -> List Email
 filterEmailsByInboxCategory category emails =
     let

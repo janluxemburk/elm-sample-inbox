@@ -9,6 +9,8 @@ type Msg
     | SelectInboxEmailCategory InboxEmailCategory
     | MarkEmailAs MarkEmail
     | ComposeEmail
+    | ReplyEmail Email
+    | ForwardEmail Email
     | ComposeMsg ComposeMsg
     | Tick Time
 

@@ -3,7 +3,7 @@ module Update exposing (update)
 import Model exposing (Model, InboxModel)
 import Types exposing (..)
 import Msg exposing (..)
-import Utils exposing (createEmail)
+import Utils exposing (createEmail, replyEmail, forwardEmail)
 import Date exposing (Date, now)
 import Dict
 
@@ -22,6 +22,12 @@ update msg model =
 
         ComposeEmail ->
             { model | composedEmail = Just <| createEmail model } ! []
+
+        ReplyEmail email ->
+            { model | composedEmail = Just <| replyEmail model email } ! []
+
+        ForwardEmail email ->
+            { model | composedEmail = Just <| forwardEmail model email } ! []
 
         ComposeMsg msg ->
             updateComposedEmail msg model
