@@ -10,16 +10,17 @@
     "build": "elm-make src/elm/Main.elm || true ",
     "dist": "webpack",
     "dev": "webpack-dev-server",
-    "csslint": "csscomb -v static/styles/"
+    "csslint": "csscomb -v static/styles/",
+    "test": "elm-test"
   },
   "devDependencies": {
     "csscomb": "^4.0.1",
     "elm": "^0.18.0",
     "elm-hot-loader": "^0.5.4",
+    "elm-test": "^0.18.2",
     "elm-webpack-loader": "^4.3.0",
     "webpack": "^2.3.2",
     "webpack-dev-server": "^2.4.2"
   },
-  "dependencies": {
-  }
+  "dependencies": {}
 }
