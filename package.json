@@ -1,8 +1,8 @@
 {
   "name": "elm-sample-inbox",
   "version": "1.0.0",
-  "description": "Sample Elm application developed as part of my bachelor thesis.",
-  "main": "index.js",
+  "description": "A sample Elm application developed as a part of my bachelor's thesis.",
+  "main": "./src/index.js",
   "repository": "git@github.com:jan-luxemburk/elm-sample-inbox.git",
   "author": "Jan Luxemburk <janluxemburk@gmail.com>",
   "license": "MIT",
