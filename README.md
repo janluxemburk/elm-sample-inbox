@@ -1,5 +1,5 @@
 ## Elm sample inbox
-This application is a part of my bachelor's thesis. The application focuses on demonstrating the Elm language and it doesn`t interact with any backend.
+This application is a part of my [bachelor's thesis](https://drive.google.com/file/d/0BzfJvCA4sXjQNjJwd2twQUFOU0k/view). The application focuses on demonstrating the Elm language and it doesn`t interact with any backend.
 
 ### Install
 Run `npm install` or `yarn install`
